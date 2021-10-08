@@ -8,7 +8,19 @@
         Title="MainWindow" Height="522" Width="891" FontSize="24">
 	<TabControl>
 		<TabItem Name="tiPolaznik" Header="Polaznici">
-			<Label Content="{Binding Path=PrezimeiIme}"/>
+			<DockPanel>
+				<StackPanel DockPanel.Dock="Right">
+					<TextBox Text="{Binding Path=Ime}"/>
+					<TextBox Text="{Binding Path=Prezime}"/>
+					<Button Click="UnosPol">Unos</Button>
+				</StackPanel>
+				<DataGrid Name="dgPolaznik" ColumnWidth="*" AutoGenerateColumns="False" IsReadOnly="True">
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="Ime" Binding="{Binding Path=Ime}"/>
+						<DataGridTextColumn Header="Prezime" Binding="{Binding Path=Prezime}"/>
+					</DataGrid.Columns>
+				</DataGrid>
+			</DockPanel>
 		</TabItem>
 		<TabItem Header="Kursevi" Name="tiKurs">
 			<DockPanel>

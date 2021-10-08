@@ -21,16 +21,16 @@ namespace Tabovanooo
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		Polaznik polaznik = new Polaznik { Ime = "Pera", Prezime = "Peric" };
-
+		ObservableCollection<Polaznik> Polaznici { get; set; } = new();
 		ObservableCollection<Kurs> Kursevi { get; set; } = new();
-		Kurs kurs = new();
 
 		public MainWindow()
 		{
 			InitializeComponent();
+			dgPolaznik.ItemsSource = Polaznici;
 
-			tiKurs.DataContext = kurs;
+			tiPolaznik.DataContext = new Polaznik();
+			tiKurs.DataContext = new Kurs();
 
 			Kursevi.Add(new Kurs { Naziv = "Prvi" });
 			Kursevi.Add(new Kurs { Naziv = "Drugi" });
@@ -63,15 +63,25 @@ namespace Tabovanooo
 				//foreach (Kurs k in Kursevi)
 				//	MessageBox.Show(k.Naziv);
 
-				//LINQ
-				Kursevi.ToList().ForEach(k => MessageBox.Show(k.Naziv));
-				
-				Kursevi.Add(tiKurs.DataContext as Kurs);
-				tiKurs.DataContext = new Kurs();
+				//LINQ            
+				if (!Kursevi.Where(k => k.Naziv.ToLower() == (tiKurs.DataContext as Kurs).Naziv.ToLower())
+					.Any())
+				{
+					Kursevi.Add(tiKurs.DataContext as Kurs);
+					tiKurs.DataContext = new Kurs();
+				}
+				else
+					MessageBox.Show("DUPLIKAAAAAT!");
 			} else
 			{
 				MessageBox.Show("JOKKKKKKK");
 			}
+		}
+
+		private void UnosPol(object sender, RoutedEventArgs e)
+		{
+			Polaznici.Add(tiPolaznik.DataContext as Polaznik);
+			tiPolaznik.DataContext = new Polaznik();
 		}
 	}
 	public class Polaznik
