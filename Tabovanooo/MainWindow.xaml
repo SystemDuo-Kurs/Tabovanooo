@@ -14,7 +14,7 @@
 					<TextBox Text="{Binding Path=Prezime}"/>
 					<Button Click="UnosPol">Unos</Button>
 				</StackPanel>
-				<DataGrid Name="dgPolaznik" ColumnWidth="*" AutoGenerateColumns="False" IsReadOnly="True">
+				<DataGrid Name="dgPolaznik" ColumnWidth="*" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="IzmenaPol">
 					<DataGrid.Columns>
 						<DataGridTextColumn Header="Ime" Binding="{Binding Path=Ime}"/>
 						<DataGridTextColumn Header="Prezime" Binding="{Binding Path=Prezime}"/>
@@ -29,7 +29,11 @@
 					<Button Click="Unos">Unos</Button>
 					<Button Click="Brisanje">Brisanje</Button>
 				</StackPanel>
-				<DataGrid Name="dgKursevi" ColumnWidth="*" IsReadOnly="True"/>
+				<DataGrid Name="dgKursevi" ColumnWidth="*" IsReadOnly="True" AutoGenerateColumns="False" MouseDoubleClick="Upis">
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="Naziv" Binding="{Binding Path=Naziv}"/>
+					</DataGrid.Columns>
+				</DataGrid>
 			</DockPanel>
 		</TabItem>
 	</TabControl>
