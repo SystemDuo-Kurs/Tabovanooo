@@ -26,6 +26,21 @@
 			<DockPanel>
 				<StackPanel DockPanel.Dock="Right">
 					<TextBox Text="{Binding Path=Naziv}"/>
+					<DatePicker SelectedDate="{Binding Path=DatumPocetka}"/>
+					<DatePicker SelectedDate="{Binding Path=DatumKraja}"/>
+					<CheckBox IsChecked="{Binding Path=DaniUNedelji[0]}">Ponedeljak</CheckBox>
+					<CheckBox IsChecked="{Binding Path=DaniUNedelji[1]}">Utorak</CheckBox>
+					<CheckBox IsChecked="{Binding Path=DaniUNedelji[2]}">Sreda</CheckBox>
+					<CheckBox IsChecked="{Binding Path=DaniUNedelji[3]}">Cetvrtak</CheckBox>
+					<CheckBox IsChecked="{Binding Path=DaniUNedelji[4]}">Petak</CheckBox>
+					<CheckBox IsChecked="{Binding Path=DaniUNedelji[5]}">Subota</CheckBox>
+					<CheckBox IsChecked="{Binding Path=DaniUNedelji[6]}">Nedelja</CheckBox>
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+						<TextBox Name="Sati" MinWidth="40"/>
+						<Label>:</Label>
+						<TextBox Name="Minute" MinWidth="40"/>
+					</StackPanel>
+					<TextBox Name="VremeTrajanja" MinWidth="40"/>
 					<Button Click="Unos">Unos</Button>
 					<Button Click="Brisanje">Brisanje</Button>
 				</StackPanel>

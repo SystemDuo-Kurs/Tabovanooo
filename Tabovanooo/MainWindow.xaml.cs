@@ -54,7 +54,7 @@ namespace Tabovanooo
 		}
 
 		private void Unos(object sender, RoutedEventArgs e)
-		{   
+		{
 			if (!(string.IsNullOrEmpty((tiKurs.DataContext as Kurs).Naziv) || 
 				string.IsNullOrWhiteSpace((tiKurs.DataContext as Kurs).Naziv)))
 			{
@@ -72,8 +72,47 @@ namespace Tabovanooo
 				if (!Kursevi.Where(k => k.Naziv.ToLower() == (tiKurs.DataContext as Kurs).Naziv.ToLower())
 					.Any())
 				{
-					Kursevi.Add(tiKurs.DataContext as Kurs);
-					tiKurs.DataContext = new Kurs();
+
+					Kurs k = tiKurs.DataContext as Kurs;
+
+					if (k.DatumPocetka.HasValue && k.DatumKraja.HasValue &&
+					    (k.DatumKraja.Value - k.DatumPocetka.Value).Days >= 7)
+					{
+						if (k.DaniUNedelji.Where(dan => dan == true).Any())
+						{
+							try
+							{
+								int sati = int.Parse(Sati.Text);
+								int minuta = int.Parse(Minute.Text);
+								int trajanje = int.Parse(VremeTrajanja.Text);
+								//nova skola :) : sati is >= 0 and <=23
+								//stara skola: sati >= 0 && sati <= 23
+								if (sati is >= 0 and <=23 && minuta is >= 0 and <= 59 &&
+									trajanje >= 30)
+								{
+									k.VremePocetka = new TimeSpan(sati, minuta, 0);
+									k.Trajanje = new TimeSpan(0, trajanje, 0);
+								} else
+								{
+									Console.WriteLine("Vreme joook");
+									return;
+								}
+							}
+							catch
+							{
+								MessageBox.Show("Greeeeeska!");
+								return;
+							}
+							Kursevi.Add(tiKurs.DataContext as Kurs);
+							tiKurs.DataContext = new Kurs();
+						} else
+						{
+							MessageBox.Show("Dan joook");
+						}
+					}else
+					{
+						MessageBox.Show("Datum joook");
+					}
 				}
 				else
 					MessageBox.Show("DUPLIKAAAAAT!");
@@ -81,6 +120,7 @@ namespace Tabovanooo
 			{
 				MessageBox.Show("JOKKKKKKK");
 			}
+			
 		}
 
 		private void UnosPol(object sender, RoutedEventArgs e)
@@ -112,7 +152,8 @@ namespace Tabovanooo
 		{
 			if (dgKursevi.SelectedItem is not null)
 			{
-				Upisivac up = new(Polaznici.ToList(), dgKursevi.SelectedItem as Kurs);
+				Upisivac up = new(Polaznici.ToList(), dgKursevi.SelectedItem as Kurs, 
+					Kursevi.ToList());
 				up.Owner = this;
 				up.ShowDialog();
 			}

@@ -19,16 +19,17 @@ namespace Tabovanooo
 	/// </summary>
 	public partial class Upisivac : Window
 	{
-		public Upisivac(List<Polaznik> pol, Kurs kurs)
+		List<Kurs> Kursevi;
+		public Upisivac(List<Polaznik> pol, Kurs kurs, List<Kurs> kursevi)
 		{
 			InitializeComponent();
+			Kursevi = kursevi;
 			listbPolaznici.ItemsSource = pol;
 			DataContext = kurs;
 			listbKurs.ItemsSource = kurs.Polaznici;
 			//listbPolaznici.DisplayMemberPath = "Ime";
 			Tamo.Content = "-->";
-			Ovamo.Content = "<--";
-			
+			Ovamo.Content = "<--";	
 		}
 
 		private void Upis(object sender, RoutedEventArgs e)
@@ -36,7 +37,18 @@ namespace Tabovanooo
 			if (listbPolaznici.SelectedItem is not null)
 			{
 				if (!(DataContext as Kurs).Polaznici.Contains(listbPolaznici.SelectedItem as Polaznik))
+				{
+					foreach(Kurs k in Kursevi)
+					{
+						if ((DataContext as Kurs) == k)
+							continue;
+						if (k.Polaznici.Contains(listbPolaznici.SelectedItem as Polaznik))
+						{
+							MessageBox.Show("Na drugom kursu jeeee");
+						}
+					}
 					(DataContext as Kurs).Polaznici.Add(listbPolaznici.SelectedItem as Polaznik);
+				}
 			}
 		}
 	}
