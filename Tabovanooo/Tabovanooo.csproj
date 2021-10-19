@@ -6,4 +6,10 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="Biblio">
+      <HintPath>..\..\Biblio\Biblio\bin\Debug\net5.0\Biblio.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

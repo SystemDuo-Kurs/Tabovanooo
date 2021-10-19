@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Biblio;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -74,40 +75,41 @@ namespace Tabovanooo
 				{
 
 					Kurs k = tiKurs.DataContext as Kurs;
-
+					
 					if (k.DatumPocetka.HasValue && k.DatumKraja.HasValue &&
 					    (k.DatumKraja.Value - k.DatumPocetka.Value).Days >= 7)
 					{
-						if (k.DaniUNedelji.Where(dan => dan == true).Any())
+						for(int indeks = 0; indeks < 7; indeks++)
+							if ((Dani.Children[indeks] as CheckBox).IsChecked.Value)
+								k.DaniUNedelji.Add((DayOfWeek)indeks);
+						if (!k.DaniUNedelji.Any())
 						{
-							try
-							{
-								int sati = int.Parse(Sati.Text);
-								int minuta = int.Parse(Minute.Text);
-								int trajanje = int.Parse(VremeTrajanja.Text);
-								//nova skola :) : sati is >= 0 and <=23
-								//stara skola: sati >= 0 && sati <= 23
-								if (sati is >= 0 and <=23 && minuta is >= 0 and <= 59 &&
-									trajanje >= 30)
-								{
-									k.VremePocetka = new TimeSpan(sati, minuta, 0);
-									k.Trajanje = new TimeSpan(0, trajanje, 0);
-								} else
-								{
-									Console.WriteLine("Vreme joook");
-									return;
-								}
-							}
-							catch
-							{
-								MessageBox.Show("Greeeeeska!");
-								return;
-							}
-							Kursevi.Add(tiKurs.DataContext as Kurs);
-							tiKurs.DataContext = new Kurs();
-						} else
+							MessageBox.Show("Jook, dani");
+							return;
+						}
+						try
 						{
-							MessageBox.Show("Dan joook");
+							int sati = int.Parse(Sati.Text);
+							int minuta = int.Parse(Minute.Text);
+							int trajanje = int.Parse(VremeTrajanja.Text);
+							//nova skola :) : sati is >= 0 and <=23
+							//stara skola: sati >= 0 && sati <= 23
+							if (sati is >= 0 and <=23 && minuta is >= 0 and <= 59 &&
+								trajanje >= 30)
+							{
+								k.VremePocetka = new TimeSpan(sati, minuta, 0);
+								k.Trajanje = new TimeSpan(0, trajanje, 0);
+								Kursevi.Add(tiKurs.DataContext as Kurs);
+								tiKurs.DataContext = new Kurs();
+							} else
+							{
+								Console.WriteLine("Vreme joook");
+							}
+							
+						}
+						catch
+						{
+							MessageBox.Show("Greeeeeska!");
 						}
 					}else
 					{
